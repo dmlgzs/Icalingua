@@ -21,7 +21,6 @@ jobs:
       - uses: Clansty/gha-yarn-node-cache@master
         env:
           WORKING_DIR: icalingua
-      - run: npm install --global node-gyp@latest
       - name: npm install
         run: npm install
 
@@ -63,6 +62,6 @@ jobs:
     - uses: actions/upload-artifact@v2
       name: upload Icalingua Setup
       with:
-        name: Icalingua Setup *.exe
-        path: icalingua/build/
+        name: Icalingua Setup
+        path: icalingua/build/Icalingua Setup *.exe
         if-no-files-found: error
