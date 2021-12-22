@@ -28,9 +28,10 @@ jobs:
 
     runs-on: windows-latest
     needs: install
-    defaults:
-      run:
-        working-directory: icalingua
+    outputs:
+      version: ${{ steps.git-ver.outputs.version }}
+      arch-version: ${{ steps.version.outputs.arch-version }}
+      pkg-name: ${{ steps.version.outputs.pkg-name }}
     steps:
     - uses: actions/checkout@v2
 
@@ -40,7 +41,10 @@ jobs:
     - uses: Clansty/gha-yarn-node-cache@master
       env:
         WORKING_DIR: icalingua
-
+        
+    - id: git-ver
+      run: echo ::set-output name=version::$(git describe --tags | sed "s/v//")
+      
     - name: check version and write version info
       run: node .github/check-version.js
       id: version
@@ -48,7 +52,11 @@ jobs:
         SHA: ${{ github.sha }}
         REF: ${{ github.REF }}
         GIT_VER: ${{ steps.git-ver.outputs.version }}
-    - run: npm run build
+        
+    - name: build
+      run: npm run build
+      working-directory: icalingua
+      
     - uses: actions/upload-artifact@v2
       name: upload Icalingua Setup
       with:
