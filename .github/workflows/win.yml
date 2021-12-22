@@ -55,7 +55,7 @@ jobs:
         
     - run: npm install -g ts-node
     - run: npm install --save @types/node
-    - run: npm install -g cfonts
+    - run: npm install --save cfonts
     - name: build
       run: npm run build
       working-directory: icalingua
