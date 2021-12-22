@@ -35,7 +35,7 @@ const isProduction = ref.startsWith('refs/tags/v')
 const buildTime = now.toLocaleString(undefined, {timeZone: 'Asia/Shanghai'})
 const version = process.env.GIT_VER
 
-
+version = packageJson.version
 
 console.log(`commitId: ${commitId}
 ref: ${ref}
