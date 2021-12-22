@@ -23,7 +23,6 @@ jobs:
 
       - name: npm install
         run: npm install
-      - run: npm audit fix
 
   build:
 
