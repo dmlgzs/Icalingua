@@ -23,6 +23,7 @@ jobs:
 
       - name: npm install
         run: npm install
+      - run: npm audit fix
 
   build:
 
@@ -55,6 +56,7 @@ jobs:
         
     - run: npm install -g ts-node
     - run: npm install --save @types/node
+    - run: npm install -g cfonts
     - name: build
       run: npm run build
       working-directory: icalingua
