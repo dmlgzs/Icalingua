@@ -1,0 +1,56 @@
+name: Windows CI
+
+on:
+  - push
+  - workflow_dispatch
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: icalingua
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2.3.0
+
+      - uses: Clansty/gha-yarn-node-cache@master
+        env:
+          WORKING_DIR: icalingua
+
+      - name: npm install
+        run: npm install
+
+  build:
+
+    runs-on: windows-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x, 16.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - name: check version and write version info
+      run: node .github/check-version.js
+      id: version
+      env:
+        SHA: ${{ github.sha }}
+        REF: ${{ github.REF }}
+        GIT_VER: ${{ steps.git-ver.outputs.version }}
+    - run: npm run build
+    - uses: actions/upload-artifact@v2
+      name: upload Icalingua Setup
+      with:
+        name: 'Icalingua Setup *.exe'
+        path: icalingua/build/
+        if-no-files-found: error
