@@ -67,10 +67,12 @@ jobs:
         if-no-files-found: error
     - name: Release
       if: ${{ startsWith(github.ref, 'refs/tags/v') }}
-      uses: fnkr/github-action-ghr@ghr-options
+      uses: actions/upload-release-asset@v1
       env:
-        GHR_PATH: /
-        GITHUB_TOKEN: ${{ github.token }}
-        GHR_REPLACE: true
-        GHR_TITLE: ${{ needs.build-dist-bundle.outputs.version }}
-        GHR_DRAFT: true
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: icalingua/build/
+        asset_name: Icalingua Setup *.exe
+        asset_name_suffix: .exe
+        asset_content_type: application/octet-stream
