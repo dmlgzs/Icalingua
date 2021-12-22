@@ -53,6 +53,7 @@ jobs:
         REF: ${{ github.REF }}
         GIT_VER: ${{ steps.git-ver.outputs.version }}
         
+    - run: npm install -g ts-node
     - name: build
       run: npm run build
       working-directory: icalingua
@@ -60,6 +61,6 @@ jobs:
     - uses: actions/upload-artifact@v2
       name: upload Icalingua Setup
       with:
-        name: 'Icalingua Setup *.exe'
+        name: Icalingua Setup *.exe
         path: icalingua/build/
         if-no-files-found: error
