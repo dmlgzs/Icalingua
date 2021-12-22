@@ -58,6 +58,8 @@ jobs:
     - run: npm install --save cfonts
     - run: npm install --save del
     - run: npm install --save webpack
+    - run: npm install --save multispinner
+    - run: npm install --save electron-builder
     - name: build
       run: npm run build
       working-directory: icalingua
