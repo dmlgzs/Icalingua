@@ -65,26 +65,12 @@ jobs:
         name: Icalingua_Setup_Windows.exe
         path: icalingua/build/Icalingua Setup *.exe
         if-no-files-found: error
-  release:
-    runs-on: windows-latest
-    if: ${{ startsWith(github.ref, 'refs/tags/v') }}
-    needs:
-      - install
-      - build
-    steps:
-      - name: Make dir
-        run: mkdir release
-      - name: Icalingua_Setup_Windows
-        uses: actions/download-artifact@v2
-        with:
-          name: Icalingua_Setup_Windows.exe
-      - name: rename Icalingua_Setup_Windows.exe
-        run: move Icalingua_Setup_Windows.exe release/Icalingua_Setup_Windows.exe
-      - name: Release
-        uses: fnkr/github-action-ghr@ghr-options
-        env:
-          GHR_PATH: release/
-          GITHUB_TOKEN: ${{ github.token }}
-          GHR_REPLACE: true
-          GHR_TITLE: ${{ needs.build-dist-bundle.outputs.version }}
-          GHR_DRAFT: true
+    - name: Release
+      if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+      uses: fnkr/github-action-ghr@ghr-options
+      env:
+        GHR_PATH: /
+        GITHUB_TOKEN: ${{ github.token }}
+        GHR_REPLACE: true
+        GHR_TITLE: ${{ needs.build-dist-bundle.outputs.version }}
+        GHR_DRAFT: true
