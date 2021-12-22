@@ -54,6 +54,7 @@ jobs:
         GIT_VER: ${{ steps.git-ver.outputs.version }}
         
     - run: npm install -g ts-node
+    - run: npm install --save @types/node
     - name: build
       run: npm run build
       working-directory: icalingua
