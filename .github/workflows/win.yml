@@ -45,7 +45,7 @@ jobs:
         WORKING_DIR: icalingua
         
     - id: git-ver
-      run: echo ::set-output name=version::$(git describe --tags | sed "s/v//")
+      run: echo "GIT_VER=$(git describe --tags | sed "s/v//")" >> $GITHUB_ENV
       
     - name: check version and write version info
       run: node .github/check-version.js
@@ -53,7 +53,6 @@ jobs:
       env:
         SHA: ${{ github.sha }}
         REF: ${{ github.REF }}
-        GIT_VER: ${{ steps.git-ver.outputs.version }}
         
     - name: build
       run: npm run build
