@@ -34,8 +34,8 @@ jobs:
       pkg-name: ${{ steps.version.outputs.pkg-name }}
     steps:
     - uses: actions/checkout@v2
-    
-    - run: git fetch --prune --unshallow
+      with:
+        fetch-depth: 0
 
     - name: Setup Node.js environment
       uses: actions/setup-node@v2
@@ -47,7 +47,7 @@ jobs:
         WORKING_DIR: icalingua
         
     - id: git-ver
-      run: echo "GIT_VER=$(git describe --tags | sed "s/v//")" >> $GITHUB_ENV
+      run: echo "::set-output name=version::$(git describe --tags | sed 's/v//')"
       
     - name: check version and write version info
       run: node .github/check-version.js
@@ -55,6 +55,7 @@ jobs:
       env:
         SHA: ${{ github.sha }}
         REF: ${{ github.REF }}
+        GIT_VER: ${{ steps.git-ver.outputs.version }}
         
     - name: build
       run: npm run build
