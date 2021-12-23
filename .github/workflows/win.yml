@@ -34,6 +34,8 @@ jobs:
       pkg-name: ${{ steps.version.outputs.pkg-name }}
     steps:
     - uses: actions/checkout@v2
+    
+    - run: git fetch --prune --unshallow
 
     - name: Setup Node.js environment
       uses: actions/setup-node@v2
